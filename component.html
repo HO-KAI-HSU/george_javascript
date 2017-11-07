@@ -1,0 +1,40 @@
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdn.rawgit.com/chrisvfritz/5f0a639590d6e648933416f90ba7ae4e/raw/98739fb8ac6779cb2da11aaa9ab6032e52f3be00/currency-validator.js"></script>
+
+<body>
+<div id = "app" v-bind:style="{color:color, fontSize: fontSize + 'px'}">
+  <vinput label = "Item_price" v-model = "item_price"></vinput>
+  <vinput label = "Item_num" v-model = "item_num"></vinput>
+  <p>Total : {{ total }}</p>
+</div>
+<script>
+Vue.component('vinput',{
+  template : '<div><label>{{label}}</label><br><input :value = "0"   @input="updateValue($event.target.value)"></div>',
+  props : {
+  	label:{}
+  },
+  methods :{
+  	updateValue : function(value){
+      var result = currencyValidator.parse(value, this.value);  //驗證器
+      this.$emit('input', result.value);
+    }
+  }
+})
+
+new Vue({
+	el:'#app',
+  data : {
+  	color: 'blue',
+	fontSize: 25,
+  	item_price : 1,
+    item_num : 0 
+  },
+  computed : {
+  	total : function(){
+    	return this.item_price *this.item_num;
+    }
+  }
+})
+
+</script>
+</body>
